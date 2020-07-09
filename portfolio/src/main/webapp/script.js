@@ -20,9 +20,9 @@ function addRandomGreeting() {
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
   
   const quotes = 
-    ["They may take our lives, but they\'ll never take our freedom", 
-     "Chewie, we\'re home", "Just when I thought I was out, they pull me back in",
-     "Im having an old friend for dinner this evening"
+    ['They may take our lives, but they\'ll never take our freedom', 
+     'Chewie, we\'re home', 'Just when I thought I was out, they pull me back in',
+     'Im having an old friend for dinner this evening'
     ];
   // Pick a random greeting.
   const greeting = quotes[Math.floor(Math.random() * greetings.length)];
@@ -30,26 +30,4 @@ function addRandomGreeting() {
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
-}
-
-/**
- * fetches message from servlet and adds it to the dom
- */
-function addComment(){
-  console.log('Fetching a random quote.');
-  const responsePromise = fetch('/data');
-  
-  responsePromise.then(handleResponse);
-}
-
-function handleResponse(response) {
-  console.log('Handling the response.');
-  const textPromise = response.text();
-  textPromise.then(addQuoteToDom);
-}
-
-function addQuoteToDom(comment) {
-  console.log('Adding quote to dom: ' + comment);
-  const quoteContainer = document.getElementById('mystery-container');
-  quoteContainer.innerText = comment;
 }
