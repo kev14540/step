@@ -18,9 +18,14 @@
 function addRandomGreeting() {
   const greetings =
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
+  
+  const quotes = 
+    ['They may take our lives, but they\'ll never take our freedom', 
+     'Chewie, we\'re home', 'Just when I thought I was out, they pull me back in',
+     'Im having an old friend for dinner this evening'
+    ];
   // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const greeting = quotes[Math.floor(Math.random() * greetings.length)];
 
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
