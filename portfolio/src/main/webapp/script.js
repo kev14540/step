@@ -31,3 +31,25 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/**
+ * fetches message from servlet and adds it to the dom
+ */
+function addComment(){
+  console.log('Fetching a random quote.');
+  const responsePromise = fetch('/data');
+  
+  responsePromise.then(handleResponse);
+}
+
+function handleResponse(response) {
+  console.log('Handling the response.');
+  const textPromise = response.text();
+  textPromise.then(addQuoteToDom);
+}
+
+function addQuoteToDom(comment) {
+  console.log('Adding quote to dom: ' + comment);
+  const quoteContainer = document.getElementById('mystery-container');
+  quoteContainer.innerText = comment;
+}
