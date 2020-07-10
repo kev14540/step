@@ -38,18 +38,27 @@ function addRandomGreeting() {
 function addComment(){
   console.log('Fetching a random quote.');
   const responsePromise = fetch('/data');
-  
   responsePromise.then(handleResponse);
 }
 
 function handleResponse(response) {
   console.log('Handling the response.');
-  const textPromise = response.text();
+  const textPromise = response.json();
   textPromise.then(addQuoteToDom);
 }
 
 function addQuoteToDom(comment) {
-  console.log('Adding quote to dom: ' + comment);
+  console.log('Adding quote to dom: ' + comment.comments[0]);
   const quoteContainer = document.getElementById('mystery-container');
-  quoteContainer.innerText = comment;
+  quoteContainer.innerHTML = '';
+  for(let x = 0; x < 3; x++) {
+    quoteContainer.appendChild(createListElement(comment.comments[x]));
+  }
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
