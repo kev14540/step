@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 
 /** Servlet that returns some example content. **/
 @WebServlet("/data")
@@ -28,13 +31,7 @@ public class DataServlet extends HttpServlet {
   ArrayList<String> comments = new ArrayList<String>();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //adds comments
-    // for(int x = 0; x < 3; x++) {
-    //   comments.add("" + x);
-    // }
-
     Gson gson = new Gson(); 
-
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
   }
@@ -42,7 +39,14 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String text = getParameter(request, "comment-input", "");
-    comments.add(text);
+    long timestamp = System.currentTimeMillis();
+
+    Entity taskEntity = new Entity("Comments");
+    taskEntity.setProperty("text", text);
+    taskEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(taskEntity);
     response.setContentType("text/html;");
     response.getWriter().println(text);
   }
