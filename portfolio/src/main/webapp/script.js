@@ -51,8 +51,8 @@ function addQuoteToDom(comment) {
   console.log('Adding quote to dom: ' + comment[0]);
   const quoteContainer = document.getElementById('mystery-container');
   quoteContainer.innerHTML = '';
-  //help meeeeeeeeeeee
-  for(let x = 0; x < comment.length(); x++) {
+  console.log(comment.length);
+  for(let x = 0; x < comment.length; x++) {
     quoteContainer.appendChild(createListElement(comment[x]));
   }
 }
