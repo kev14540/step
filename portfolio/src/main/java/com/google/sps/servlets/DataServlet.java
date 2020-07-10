@@ -34,30 +34,8 @@ public class DataServlet extends HttpServlet {
     }
 
     Gson gson = new Gson(); 
-    //String json = convertToJson(comments);
 
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
-  }
-
-  private String convertToJson(ArrayList messages){
-    int size = messages.size();
-    //error case
-    if(size < 1) {
-      return "{\"comments\":}";
-    }
-
-    //base case and middle cases
-    String json = "{ \"comments\": [ \"" + messages.get(0) +"\"";
-    for(int x = 1; x < messages.size() - 1; x++) {
-      json += ", \"" + messages.get(x) + "\"";
-    }
-
-    //formats last element 
-    if(size > 1) {
-        json += ", \"" + messages.get(size - 1) + "\"";
-    }
-    json += " ] }";
-    return json;
   }
 }
