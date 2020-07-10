@@ -20,42 +20,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns some example content. **/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   ArrayList<String> comments = new ArrayList<String>();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //adds comments
-    for(int x = 0; x < 3; x++) {
-      comments.add("" + x);
-    }
-
-    String json = convertToJson(comments);
-
+    Gson gson = new Gson(); 
     response.setContentType("application/json;");
-    response.getWriter().println(json);
+    response.getWriter().println(gson.toJson(comments));
   }
 
-  private String convertToJson(ArrayList messages){
-    int size = messages.size();
-    //error case
-    if(size < 1) {
-      return "{\"comments\":}";
-    }
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String text = getParameter(request, "comment-input", "");
+    long timestamp = System.currentTimeMillis();
 
-    //base case and middle cases
-    String json = "{ \"comments\": [ \"" + messages.get(0) +"\"";
-    for(int x = 1; x < messages.size() - 1; x++) {
-      json += ", \"" + messages.get(x) + "\"";
-    }
+    Entity taskEntity = new Entity("Comments");
+    taskEntity.setProperty("text", text);
+    taskEntity.setProperty("timestamp", timestamp);
 
-    //formats last element 
-    if(size > 1) {
-        json += ", \"" + messages.get(size - 1) + "\"";
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(taskEntity);
+    response.setContentType("text/html;");
+    response.getWriter().println(text);
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
     }
-    json += " ] }";
-    return json;
+    return value;
   }
 }
