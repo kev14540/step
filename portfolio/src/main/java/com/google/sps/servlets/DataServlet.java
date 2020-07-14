@@ -61,7 +61,10 @@ public class DataServlet extends HttpServlet {
     String text = getParameter(request, "comment-input", "");
     long timestamp = System.currentTimeMillis();
     String email = userService.getCurrentUser().getEmail();
-
+    if (email == null){
+      response.sendError(401, "user is not logged in");
+      return;
+    }
     Entity commentEntity = new Entity("Comments");
     commentEntity.setProperty("text", text);
     commentEntity.setProperty("timestamp", timestamp);
