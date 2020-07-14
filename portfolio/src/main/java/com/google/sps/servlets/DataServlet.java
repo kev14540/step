@@ -58,13 +58,13 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String text = getParameter(request, "comment-input", "");
-    long timestamp = System.currentTimeMillis();
-    String email = userService.getCurrentUser().getEmail();
-    if (email == null){
+    if (!userService.isUserLoggedIn()) {
       response.sendError(401, "user is not logged in");
       return;
     }
+    String text = getParameter(request, "comment-input", "");
+    long timestamp = System.currentTimeMillis();
+    String email = userService.getCurrentUser().getEmail();
     Entity commentEntity = new Entity("Comments");
     commentEntity.setProperty("text", text);
     commentEntity.setProperty("timestamp", timestamp);
