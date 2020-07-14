@@ -7,11 +7,13 @@ package com.google.sps.servlets;
 public final class Comment {
 
   private final String text;
-  private final Long time;
+  private final long time;
+  private final String user;
 
-  public Comment(String text, Long time) {
+  public Comment(String text, long time, String user) {
     this.time = time;
     this.text = text;
+    this.user = user;
   }
 
   public String getText() {
@@ -21,4 +23,7 @@ public final class Comment {
     return time;
   }
 
+  public String getUser(){
+    return user;
+  }
 }
