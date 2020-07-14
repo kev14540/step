@@ -12,6 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//adds event listener for when page loads
+window.addEventListener('load', (event) => {
+    console.log('The page has fully loaded');
+    fetchUser();
+});
+
 /**
  * Adds a random greeting to the page.
  */
@@ -49,7 +55,7 @@ function handleResponse(response) {
 
 function addQuoteToDom(comment) {
   console.log('Adding quote to dom: ' + comment[0]);
-  const quoteContainer = document.getElementById('mystery-container');
+  const quoteContainer = id('mystery-container');
   quoteContainer.innerHTML = '';
   console.log(comment);
   for(let x = 0; x < comment.length; x++) {
@@ -62,4 +68,23 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+/**gets the user and sets the dom */
+function fetchUser() {
+  fetch('/login?alt=json').then(response => {
+      return response.json();
+    }).then((user) => {
+      console.log(user);
+      if(user.loggedIn) {
+        id('comment-adder').classList.remove('hidden');
+      } else {
+        id('login-link').classList.remove('hidden');
+      }
+  });
+}
+
+//helper function to get id of element
+function id(text) {
+    return document.getElementById(text);
 }
