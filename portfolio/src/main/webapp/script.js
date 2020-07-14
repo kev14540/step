@@ -59,7 +59,8 @@ function addQuoteToDom(comment) {
   quoteContainer.innerHTML = '';
   console.log(comment);
   for(let x = 0; x < comment.length; x++) {
-    quoteContainer.appendChild(createListElement(comment[x].text));
+    quoteContainer.appendChild(createListElement(comment[x].user + ": " +
+      comment[x].text));
   }
 }
 
