@@ -9,11 +9,13 @@ public final class Comment {
   private final String text;
   private final long time;
   private final String user;
+  private final String imageURL;
 
-  public Comment(String text, long time, String user) {
+  public Comment(String text, long time, String user, String imageURL) {
     this.time = time;
     this.text = text;
     this.user = user;
+    this.imageURL = imageURL;
   }
 
   public String getText() {
@@ -23,7 +25,11 @@ public final class Comment {
     return time;
   }
 
-  public String getUser(){
+  public String getUser() {
     return user;
+  }
+
+  public String getImage() {  
+    return imageURL;
   }
 }
