@@ -16,6 +16,7 @@
 window.addEventListener('load', (event) => {
     console.log('The page has fully loaded');
     fetchUser();
+    addBlob();
 });
 
 /**
@@ -61,6 +62,14 @@ function addQuoteToDom(comment) {
   for(let x = 0; x < comment.length; x++) {
     quoteContainer.appendChild(createListElement(comment[x].user + ": " +
       comment[x].text));
+    if( comment[x].imageURL !== null)  {
+      let img = document.createElement('img');
+      console.log(comment[x].imageURL);
+      img.src = comment[x].imageURL;
+      img.style.width = '200px';
+      img.style.length = '200px';
+      quoteContainer.appendChild(img);
+    }
   }
 }
 
@@ -82,6 +91,15 @@ function fetchUser() {
       } else {
         id('login-link').classList.remove('hidden');
       }
+  });
+}
+
+function addBlob() {
+  fetch('/get-blobstore-url?alt=json').then(response => {
+    return response.json();
+  }).then((url) => {
+    console.log(url);
+    id("comment-adder").action = url;
   });
 }
 

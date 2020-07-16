@@ -25,12 +25,13 @@
     </div>
 
     <p id="login-link" class="hidden">Login <a href="/login">here</a>.</p>
-    <form action="/data" method="POST" id="comment-adder" class="hidden">
-
+    <form action="" enctype="multipart/form-data" method="POST" id="comment-adder" class="hidden">
       <p>Enter a comment</p>
       <textarea name="comment-input">blah blah</textarea>
       <br/><br/>
-
+      <p>Submit an image</p>
+      <input type="file" name="image">
+      <br/><br/>
       <input type="submit" />
     </form>
     <div>
